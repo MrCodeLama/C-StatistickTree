@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 using namespace std;
 
+
+
 // Структура для представлення раціонального числа
 struct Rational {
     int numerator; // Лічильник
@@ -323,27 +325,67 @@ Rational RedBlackTree::findKth(int k) {
     return not_found;
 }
 
-// Тестовий приклад
+// меню
+void menu(RedBlackTree& tree) {
+    int choice = -2;
+    while (choice != 4)
+    {
+        cout << "\n";
+        cout << "Red-Black Tree Menu" << endl;
+        cout << "1. Insert a rational number" << endl;
+        cout << "2. Remove a rational number" << endl;
+        cout << "3. Find k-th order statistic" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        
+        cin >> choice;
+        cout << "\n";
+
+        switch (choice) {
+        case 1: {
+            Rational num;
+            cout << "Enter the numerator: ";
+            cin >> num.numerator;
+            cout << "Enter the denominator: ";
+            cin >> num.denominator;
+            simplify(num);
+            tree.insert(num);
+            break;
+        }
+        case 2: {
+            Rational num;
+            cout << "Enter the numerator: ";
+            cin >> num.numerator;
+            cout << "Enter the denominator: ";
+            cin >> num.denominator;
+            simplify(num);
+            tree.remove(num);
+            break;
+        }
+        case 3: {
+            int k;
+            cout << "Enter the value of k: ";
+            cin >> k;
+            Rational kth_element = tree.findKth(k);
+            if (kth_element.denominator != 1)
+                cout << "The " << k << "-th order statistic: " << kth_element.numerator << "/" << kth_element.denominator << endl;
+            else
+                cout << "The " << k << "-th order statistic: " << kth_element.numerator << endl;
+            break;
+        }
+        case 4: {
+            cout << "Exiting..." << endl;
+            break;
+        }
+        default:
+            cout << "Invalid choice. Please enter a number between 1 and 4." << endl;
+        }
+    }
+}
+
 int main() {
     RedBlackTree tree;
-    Rational numbers[] = { {3, 2}, {1, 2}, {5, 2}, {2, 1}, {7, 3}, {4, 1} };
-
-    // Вставка чисел у дерево
-    for (Rational num : numbers) {
-        simplify(num); // Спрощення раціональних чисел перед вставкою
-        tree.insert(num);
-    }
-
-    // Пошук 3-го елемента у дереві (3/2)
-    Rational kth_element = tree.findKth(3);
-    cout << "3rd order statistic: " << kth_element.numerator << "/" << kth_element.denominator << endl;
-
-    // Видалення числа (3/2) з дерева
-    tree.remove({ 3, 2 });
-
-    // Пошук 3-го елемента у дереві після видалення
-    kth_element = tree.findKth(3);
-    cout << "3rd order statistic after removal: " << kth_element.numerator << "/" << kth_element.denominator << endl;
+    menu(tree);
 
     return 0;
 }
